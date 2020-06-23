@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/marquise/static/css/main.7803f931.chunk.css",
-    "main.js": "/marquise/static/js/main.3038cb11.chunk.js",
-    "main.js.map": "/marquise/static/js/main.3038cb11.chunk.js.map",
+    "main.js": "/marquise/static/js/main.a1aee4e8.chunk.js",
+    "main.js.map": "/marquise/static/js/main.a1aee4e8.chunk.js.map",
     "runtime-main.js": "/marquise/static/js/runtime-main.86c46ca6.js",
     "runtime-main.js.map": "/marquise/static/js/runtime-main.86c46ca6.js.map",
     "static/js/2.86b5ab07.chunk.js": "/marquise/static/js/2.86b5ab07.chunk.js",
     "static/js/2.86b5ab07.chunk.js.map": "/marquise/static/js/2.86b5ab07.chunk.js.map",
     "index.html": "/marquise/index.html",
-    "precache-manifest.f9f1125e62029510c5f0a920b77c735d.js": "/marquise/precache-manifest.f9f1125e62029510c5f0a920b77c735d.js",
+    "precache-manifest.470a4bf698c280ab5c2071ce0d26dcce.js": "/marquise/precache-manifest.470a4bf698c280ab5c2071ce0d26dcce.js",
     "service-worker.js": "/marquise/service-worker.js",
     "static/css/main.7803f931.chunk.css.map": "/marquise/static/css/main.7803f931.chunk.css.map",
     "static/js/2.86b5ab07.chunk.js.LICENSE.txt": "/marquise/static/js/2.86b5ab07.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.86c46ca6.js",
     "static/js/2.86b5ab07.chunk.js",
     "static/css/main.7803f931.chunk.css",
-    "static/js/main.3038cb11.chunk.js"
+    "static/js/main.a1aee4e8.chunk.js"
   ]
 }
