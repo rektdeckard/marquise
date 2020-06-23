@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/github.io/marquise/static/css/main.7803f931.chunk.css",
-    "main.js": "/github.io/marquise/static/js/main.911093a8.chunk.js",
-    "main.js.map": "/github.io/marquise/static/js/main.911093a8.chunk.js.map",
+    "main.js": "/github.io/marquise/static/js/main.add02750.chunk.js",
+    "main.js.map": "/github.io/marquise/static/js/main.add02750.chunk.js.map",
     "runtime-main.js": "/github.io/marquise/static/js/runtime-main.473cd055.js",
     "runtime-main.js.map": "/github.io/marquise/static/js/runtime-main.473cd055.js.map",
     "static/js/2.1769f16e.chunk.js": "/github.io/marquise/static/js/2.1769f16e.chunk.js",
     "static/js/2.1769f16e.chunk.js.map": "/github.io/marquise/static/js/2.1769f16e.chunk.js.map",
     "index.html": "/github.io/marquise/index.html",
-    "precache-manifest.baab2207bc2ca8585b6aa9f2c60cd509.js": "/github.io/marquise/precache-manifest.baab2207bc2ca8585b6aa9f2c60cd509.js",
+    "precache-manifest.819860b658b262fb2b79729e1b01efba.js": "/github.io/marquise/precache-manifest.819860b658b262fb2b79729e1b01efba.js",
     "service-worker.js": "/github.io/marquise/service-worker.js",
     "static/css/main.7803f931.chunk.css.map": "/github.io/marquise/static/css/main.7803f931.chunk.css.map",
     "static/js/2.1769f16e.chunk.js.LICENSE.txt": "/github.io/marquise/static/js/2.1769f16e.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.473cd055.js",
     "static/js/2.1769f16e.chunk.js",
     "static/css/main.7803f931.chunk.css",
-    "static/js/main.911093a8.chunk.js"
+    "static/js/main.add02750.chunk.js"
   ]
 }
