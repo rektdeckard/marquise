@@ -1,7 +1,7 @@
 {
   "name": "client",
   "description": "A handy little LED sign you can command from your browser :)",
-  "homepage": "https://rektdeckard/github.io/marquise",
+  "homepage": "https://rektdeckard.github.io/marquise",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

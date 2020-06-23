@@ -6,6 +6,7 @@ import logo from "../assets/icon.png";
 
 const App = () => {
   const [messages, setMessages] = useState([]);
+  const [on, setOn] = useState(true);
   const [message, setMessage] = useState("");
   const [color, setColor] = useState("#F56565");
   const [speed, setSpeed] = useState(2);
@@ -16,8 +17,10 @@ const App = () => {
     const load = async () => {
       const { data } = await API.get("/latest");
       console.log(data);
-      console.log(data.messages[0].color.toString(16));
-      if (isMounted) setMessages(data.messages);
+      if (isMounted) {
+        setMessages(data.messages);
+        setOn(data.on);
+      }
     };
 
     load();
@@ -25,10 +28,11 @@ const App = () => {
     return () => (isMounted = false);
   }, []);
 
-  const doSubmit = async (messages = {}) => {
-    const { data } = await API.put("/", messages);
+  const doSubmit = async (state = { on: false }) => {
+    const { data } = await API.put("/", state);
     console.log(data);
-    setMessages(data.data.messages);
+    setMessages(data?.data?.messages ?? []);
+    setOn(data?.data?.on ?? true);
   };
 
   const handleSubmit = async () => {
@@ -38,6 +42,7 @@ const App = () => {
           ...messages,
           { text: message, color: parseInt(color.substring(1), 16), speed },
         ],
+        on,
       });
     } catch (e) {
       console.error(e);
@@ -54,24 +59,32 @@ const App = () => {
     }
   };
 
+  const handleClear = () => {
+    doSubmit({ on, messages: [] });
+  }
+
   const handleColorChange = ({ hex }) => {
     setColor(hex);
+  };
+
+  const toggleOn = () => {
+    doSubmit({ on: !on, messages });
   };
 
   const renderMessage = (message, index) => (
     <div
       key={index}
-      className="max-w-lg mx-auto flex p-2 bg-white rounded-lg shadow-xl mb-4"
+      className="max-w-lg mx-auto flex p-2 bg-gray-900 text-gray-400 rounded-lg shadow-xl mb-4"
     >
       <div
-        className="inline-block rounded text-center px-4 py-2 m-2"
+        className="inline-block rounded text-center text-gray-900 px-4 py-2 m-2"
         style={{ backgroundColor: `#${message.color.toString(16)}` }}
       >
         {index + 1}
       </div>
-      <div className="flex-1 px-4 py-2 m-2">{message.text}</div>
+      <div className="flex-1 px-4 py-2 m-2 font-mono">{message.text}</div>
       <button
-        className="inline-block rounded text-center px-4 py-2 m-2 bg-gray-500 hover:bg-red-700 text-white font-bold focus:outline-none focus:shadow-outline"
+        className="inline-block rounded text-center px-4 py-2 m-2 bg-gray-500 hover:bg-red-700 font-bold text-gray-900 focus:outline-none focus:shadow-outline"
         type="button"
         onClick={() => handleDismiss(message.text)}
       >
@@ -81,28 +94,27 @@ const App = () => {
   );
 
   return (
-    <div className="min-h-screen min-w-screen p-8 md:p-24 bg-red-500">
-      <div className="max-w-lg mx-auto px-4 pb-8">
+    <div className="min-h-screen min-w-screen p-8 md:p-24 bg-gray-700">
+      <div className="max-w-lg mx-auto px-4 pb-8 text-gray-400 font-mono text-center">
         {/* <img src={logo} alt="Marquise logo" /> */}
-        <p className="font-mono text-4xl text-center text-red-200">Marquise</p>
-        <p className="text-sm text-center text-red-200">
-          A handy little LED sign you can command from your browser
-          :)
+        <p className="text-4xl">Marquise</p>
+        <p className="text-sm">
+          A handy little LED sign you can command from your browser :)
         </p>
       </div>
-      <div className="max-w-lg mx-auto flex p-6 bg-white rounded-lg shadow-xl mb-4">
-        <form className="bg-white w-full">
+      <div className="max-w-lg mx-auto flex p-6 bg-gray-900 rounded-lg shadow-xl mb-4">
+        <form className="w-full">
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block font-mono text-gray-400 text-sm font-bold mb-2"
               htmlFor="message"
             >
-              Message
+              MESSAGE
             </label>
             <textarea
-              className={`shadow appearance-none border ${
+              className={`shadow appearance-none ${
                 false ? "border-red-600" : ""
-              } rounded resize-y h-16 w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+              } rounded resize-y h-16 w-full py-2 px-3 bg-green-200 text-gray-900 font-mono mb-3 leading-tight focus:outline-none focus:shadow-outline`}
               id="message"
               type="text"
               value={message}
@@ -111,36 +123,13 @@ const App = () => {
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="color"
-            >
-              Color
-            </label>
-            <HuePicker
-              id="color"
-              className="mb-4"
-              width="100%"
-              color={color}
-              onChange={handleColorChange}
-            />
-            <AlphaPicker width="100%" color={color} onChange={console.log} />
-            {/* <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="color"
-              type="number"
-              value={color}
-              onChange={({ target: { value } }) => setColor(value)}
-            /> */}
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block font-mono text-gray-400 text-sm font-bold mb-2"
               htmlFor="speed"
             >
-              Speed
+              SPEED
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 bg-green-200 text-gray-900 font-mono mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="speed"
               type="number"
               value={speed}
@@ -149,13 +138,54 @@ const App = () => {
               onChange={({ target: { value } }) => setSpeed(value)}
             />
           </div>
-          <div className="flex items-center">
+          <div className="mb-4">
+            <label
+              className="block font-mono text-gray-400 text-sm font-bold mb-2"
+              htmlFor="color"
+            >
+              COLOR
+            </label>
+            <HuePicker
+              id="color"
+              className="mb-4"
+              width="100%"
+              color={color}
+              onChange={handleColorChange}
+            />
+            {/* <AlphaPicker width="100%" color={color} onChange={console.log} /> */}
+            {/* <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              id="color"
+              type="number"
+              value={color}
+              onChange={({ target: { value } }) => setColor(value)}
+            /> */}
+          </div>
+          <div className="flex items-center space-x-3">
             <button
-              className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className={`w-full ${
+                on
+                  ? "bg-gray-700 hover:bg-gray-800"
+                  : "bg-gray-500 hover:bg-gray-700"
+              } text-white text-lg font-mono py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+              type="button"
+              onClick={toggleOn}
+            >
+              {on ? "ON" : "OFF"}
+            </button>
+            <button
+              className="w-full bg-gray-500 hover:bg-gray-700 text-white text-lg font-mono py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="button"
+              onClick={handleClear}
+            >
+              CLEAR
+            </button>
+            <button
+              className="w-full bg-red-500 hover:bg-red-700 text-white text-lg font-mono py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               onClick={handleSubmit}
             >
-              Beam it up!
+              SEND
             </button>
           </div>
         </form>
