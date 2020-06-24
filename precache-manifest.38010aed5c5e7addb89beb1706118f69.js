@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5a321317f0b65f1ac4233e71d28ecc4d",
+    "revision": "0fcece331b171dae3b2340e6a2f2ce08",
     "url": "/marquise/index.html"
   },
   {
-    "revision": "c9f5e48ec5c55af30106",
+    "revision": "9566d069b62a6355e19b",
     "url": "/marquise/static/css/main.7803f931.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/marquise/static/js/2.86b5ab07.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c9f5e48ec5c55af30106",
-    "url": "/marquise/static/js/main.738984aa.chunk.js"
+    "revision": "9566d069b62a6355e19b",
+    "url": "/marquise/static/js/main.a2ea3fbd.chunk.js"
   },
   {
     "revision": "eeab2e3630c3c85e0511",
