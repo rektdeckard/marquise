@@ -1,0 +1,15 @@
+.huebee__container {
+  top: 10px;
+  background: #1A202C;
+  border: none;
+}
+
+.huebee__close-button {
+  background: #A0AEC0;
+}
+
+.huebee__close-button__x {
+  stroke-width: 2;
+  border-radius: 0;
+  color: black;
+}
