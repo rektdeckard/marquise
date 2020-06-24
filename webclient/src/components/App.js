@@ -4,7 +4,6 @@ import Huebee from "huebee";
 
 import "../assets/huebee.css";
 import API from "../api/API";
-import logo from "../assets/icon.png";
 
 const App = () => {
   const [messages, setMessages] = useState([]);
