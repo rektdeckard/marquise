@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { HuePicker, AlphaPicker } from "react-color";
 import Huebee from "huebee";
 
 import "../assets/huebee.css";
@@ -12,6 +11,7 @@ const App = () => {
   const [message, setMessage] = useState("");
   const [color, setColor] = useState("#F56565");
   const [speed, setSpeed] = useState(2);
+  const [brightness, setBrightness] = useState(25);
 
   const huebee = useRef();
 
@@ -56,6 +56,7 @@ const App = () => {
     setMessages(data?.data?.messages ?? []);
     setOn(data?.data?.on ?? true);
     setIsOfflineMode(data?.data?.isOfflineMode ?? false);
+    setBrightness(data?.data?.brightness ?? 25);
   };
 
   const handleSubmit = () => {
@@ -65,29 +66,35 @@ const App = () => {
         { text: message, color: parseInt(color.substring(1), 16), speed },
       ],
       on,
+      brightness,
       isOfflineMode,
     });
   };
 
   const handleDismiss = (message) => {
     const remaining = messages.filter((it) => it.text !== message);
-    doSubmit({ on, isOfflineMode, messages: remaining });
+    doSubmit({ on, brightness, isOfflineMode, messages: remaining });
   };
 
   const handleClear = () => {
-    doSubmit({ on, isOfflineMode, messages: [] });
+    doSubmit({ on, brightness, isOfflineMode, messages: [] });
   };
 
   const toggleOn = () => {
-    doSubmit({ on: !on, isOfflineMode, messages });
+    doSubmit({ on: !on, brightness, isOfflineMode, messages });
   };
 
   const toggleisOffline = () => {
-    doSubmit({ on, messages, isOfflineMode: !isOfflineMode });
+    doSubmit({ on, brightness, messages, isOfflineMode: !isOfflineMode });
   };
 
   const handleColorChange = ({ hex }) => {
     setColor(hex);
+  };
+
+  const handleBrightnessChange = ({ target: { value } }) => {
+    const bri = Math.min(Math.max(parseInt(value), 0), 255);
+    if (!isNaN(bri)) setBrightness(bri);
   };
 
   const renderMessage = (message, index) => (
@@ -126,7 +133,7 @@ const App = () => {
       <div className="max-w-lg mx-auto flex p-4 bg-gray-900 rounded-lg shadow-xl mb-4">
         <form className="w-full">
           <div className="rounded bg-gray-800 p-4 mb-2">
-            <div className="mb-4">
+            <div>
               <label
                 className="block font-mono text-gray-400 text-sm font-bold mb-2"
                 htmlFor="message"
@@ -143,24 +150,43 @@ const App = () => {
                 onChange={({ target: { value } }) => setMessage(value)}
               />
             </div>
-            <div className="mb-4">
-              <label
-                className="block font-mono text-gray-400 text-sm font-bold mb-2"
-                htmlFor="speed"
-              >
-                SPEED
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 bg-green-200 text-gray-900 font-mono mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="speed"
-                type="number"
-                value={speed}
-                min={1}
-                max={5}
-                onChange={({ target: { value } }) => setSpeed(value)}
-              />
+            <div className="flex flex-wrap -mx-3 mb-2">
+              <div className="w-full sm:w-1/2 px-3 mb-2 sm:mb-0">
+                <label
+                  className="block font-mono text-gray-400 text-sm font-bold mb-2"
+                  htmlFor="speed"
+                >
+                  SPEED
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 bg-green-200 text-gray-900 font-mono mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="speed"
+                  type="number"
+                  value={speed}
+                  min={1}
+                  max={5}
+                  onChange={({ target: { value } }) => setSpeed(value)}
+                />
+              </div>
+              <div className="w-full sm:w-1/2 px-3 mb-2 sm:mb-0">
+                <label
+                  className="block font-mono text-gray-400 text-sm font-bold mb-2"
+                  htmlFor="brightness"
+                >
+                  BRIGHTNESS
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 bg-green-200 text-gray-900 font-mono mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="brightness"
+                  type="number"
+                  value={brightness}
+                  min={1}
+                  max={255}
+                  onChange={handleBrightnessChange}
+                />
+              </div>
             </div>
-            <div className="mb-4">
+            <div>
               <label
                 className="block font-mono text-gray-400 text-sm font-bold mb-2"
                 htmlFor="color"
@@ -175,17 +201,9 @@ const App = () => {
                 value={color}
                 onChange={handleColorChange}
               />
-              {/* <HuePicker
-                id="color"
-                className="mb-4"
-                width="100%"
-                color={color}
-                onChange={handleColorChange}
-              />
-              <AlphaPicker width="100%" onChange={console.log} /> */}
             </div>
           </div>
-          <div className="rounded bg-gray-800 p-2">
+          <div className="rounded bg-gray-800 p-4">
             <div className="flex items-center space-x-3 mb-3">
               <button
                 className={`w-full ${

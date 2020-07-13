@@ -39,13 +39,14 @@ struct Letter {
 class Marquise {
   public:
     Marquise(int led_count, int led_pin);
-    Adafruit_NeoPixel neopixel() { return m_neopixel; }
+    Adafruit_NeoPixel& neopixel() { return m_neopixel; }
 
     void init();
-    void setBrightness(uint8_t brightness) { m_neopixel.setBrightness(brightness); }
     void show() { m_neopixel.show(); }
-    void fill(uint32_t c = 0, uint16_t first = 0, uint16_t count = 0) { m_neopixel.fill(c, first, count); }
     void clear() { m_neopixel.clear(); }
+    void fill(uint32_t c = 0, uint16_t first = 0, uint16_t count = 0) { m_neopixel.fill(c, first, count); }
+    void fill(Color c = Color::RED, uint16_t first = 0, uint16_t count = 0) { m_neopixel.fill((uint32_t)c, first, count); }
+    void setBrightness(uint8_t brightness) { m_neopixel.setBrightness(brightness); }
     void draw_letter(std::vector<int>, int, uint32_t);
     void scroll_text(String text, int speed, uint32_t color);
     void scroll_text(String text, int speed, Color color);
