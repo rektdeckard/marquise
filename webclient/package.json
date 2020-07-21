@@ -2,7 +2,7 @@
   "name": "client",
   "description": "A handy little LED sign you can command from your browser :)",
   "homepage": "https://rektdeckard.github.io/marquise",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",

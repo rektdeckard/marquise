@@ -19,12 +19,18 @@ const App = () => {
     let isMounted = true;
 
     const load = async () => {
-      const { data } = await API.get("/latest");
-      console.log(data);
-      if (isMounted) {
-        setMessages(data.messages);
-        setOn(data.on);
-        setIsOfflineMode(data.isOfflineMode);
+      try {
+        const { data } = await API.get("/latest");
+        console.log(data);
+        const { record } = data;
+        if (isMounted) {
+          setMessages(record.messages ?? []);
+          setOn(record.on ?? true);
+          setBrightness(b => (record.brightness ?? b))
+          setIsOfflineMode(record.isOfflineMode ?? false);
+        }
+      } catch(e) {
+        console.error(e);
       }
     };
 
@@ -51,22 +57,26 @@ const App = () => {
   }, [color]);
 
   const doSubmit = async (state = { on: false }) => {
-    const { data } = await API.put("/", state);
-    console.log(data);
-    setMessages(data?.data?.messages ?? []);
-    setOn(data?.data?.on ?? true);
-    setIsOfflineMode(data?.data?.isOfflineMode ?? false);
-    setBrightness(data?.data?.brightness ?? 25);
+    try {
+      const { data: { record } } = await API.put("/", state);
+      console.log(record);
+      setMessages(record?.messages ?? []);
+      setOn(record?.on ?? true);
+      setIsOfflineMode(record?.isOfflineMode ?? false);
+      setBrightness(record?.brightness ?? 25);
+    } catch(e) {
+      console.error("Could not complete request", e);
+    }
   };
 
   const handleSubmit = () => {
     doSubmit({
       messages: [
         ...messages,
-        { text: message, color: parseInt(color.substring(1), 16), speed },
+        { text: message, color: parseInt(color.substring(1), 16), speed: speed ?? 2 },
       ],
       on,
-      brightness,
+      brightness: brightness ?? 5,
       isOfflineMode,
     });
   };
@@ -88,11 +98,18 @@ const App = () => {
     doSubmit({ on, brightness, messages, isOfflineMode: !isOfflineMode });
   };
 
+  const handleSpeedChange = ({ target: { value } }) => {
+    if (!value) setSpeed("");
+    const speed = Math.min(Math.max(parseInt(value), 1), 10);
+    if (!isNaN(speed)) setSpeed(speed);
+  }
+
   const handleColorChange = ({ hex }) => {
     setColor(hex);
   };
 
   const handleBrightnessChange = ({ target: { value } }) => {
+    if (!value) return setBrightness("");
     const bri = Math.min(Math.max(parseInt(value), 0), 255);
     if (!isNaN(bri)) setBrightness(bri);
   };
@@ -164,8 +181,8 @@ const App = () => {
                   type="number"
                   value={speed}
                   min={1}
-                  max={5}
-                  onChange={({ target: { value } }) => setSpeed(value)}
+                  max={10}
+                  onChange={handleSpeedChange}
                 />
               </div>
               <div className="w-full sm:w-1/2 px-3 mb-2 sm:mb-0">
@@ -249,7 +266,7 @@ const App = () => {
           </div>
         </form>
       </div>
-      {messages.map(renderMessage)}
+      {messages?.map(renderMessage)}
     </div>
   );
 };
