@@ -20,9 +20,9 @@ const App = () => {
 
     const load = async () => {
       try {
-        const { data } = await API.get("/latest");
+        const { data } = await API.get();
         console.log(data);
-        const { record } = data;
+        const record = data;
         if (isMounted) {
           setMessages(record.messages ?? []);
           setOn(record.on ?? true);
@@ -58,12 +58,12 @@ const App = () => {
 
   const doSubmit = async (state = { on: false }) => {
     try {
-      const { data: { record } } = await API.put("/", state);
-      console.log(record);
-      setMessages(record?.messages ?? []);
-      setOn(record?.on ?? true);
-      setIsOfflineMode(record?.isOfflineMode ?? false);
-      setBrightness(record?.brightness ?? 25);
+      const { data } = await API.post("/", state);
+      console.log(data);
+      setMessages(data?.messages ?? []);
+      setOn(data?.on ?? true);
+      setIsOfflineMode(data?.isOfflineMode ?? false);
+      setBrightness(data?.brightness ?? 25);
     } catch(e) {
       console.error("Could not complete request", e);
     }
